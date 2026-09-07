@@ -8317,7 +8317,7 @@ Newly Redecorated! Central Park Family Favorite! Entire home/apt             5  
 <span class="c1"># Min-Max scale: number_of_reviews shrunk to 0-1</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"reviews_minmax"</span><span class="p">]</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">"number_of_reviews"</span><span class="p">]])</span>
 
-<span class="c1"># Z-score scale: price centred on 0 with a standard deviation of 1.</span>
+<span class="c1"># Z-score scale: price centered on 0 with a standard deviation of 1.</span>
 <span class="c1"># StandardScaler rejects nulls, so the 688 unpriced listings are scaled around.</span>
 <span class="n">priced_rows</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"price_zscore"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -9488,7 +9488,13 @@ room_type_Shared room          0
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[NbConvertApp] WARNING | Alternative text is missing on 1 image(s).
-[NbConvertApp] Writing 431422 bytes to assignment_07_data_transformation.html
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[NbConvertApp] Writing 431423 bytes to assignment_07_data_transformation.html
 </pre>
 </div>
 </div>
