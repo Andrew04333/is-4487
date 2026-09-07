@@ -8114,7 +8114,7 @@ Import standard libraries (pandas, numpy, seaborn, matplotlib)</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Confirm the columns this assignment leans on came through Assignment 6 intact.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Check the columns this assignment leans on came through Assignment 6 intact.</span>
 <span class="n">working</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"price"</span><span class="p">,</span> <span class="s2">"number_of_reviews"</span><span class="p">,</span> <span class="s2">"minimum_nights"</span><span class="p">,</span> <span class="s2">"accommodates"</span><span class="p">,</span> <span class="s2">"room_type"</span><span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">working</span><span class="p">]</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
@@ -8179,7 +8179,7 @@ reviews   min 0       median 21        max 1,798
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Log the price. log1p rather than log so a $0 quote would not blow up.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Log the price. log1p rather than log so a $0 quote wouldn't blow up.</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"price_log"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">])</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -8227,7 +8227,8 @@ reviews   min 0       median 21        max 1,798
 <span class="nb">print</span><span class="p">(</span><span class="n">priced</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Listings priced over $2,000 a night: </span><span class="si">{</span><span class="p">(</span><span class="n">priced</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">"price"</span><span class="p">)[[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"room_type"</span><span class="p">,</span> <span class="s2">"accommodates"</span><span class="p">,</span> <span class="s2">"minimum_nights"</span><span class="p">,</span> <span class="s2">"price"</span><span class="p">]]</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">"price"</span><span class="p">)[[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"room_type"</span><span class="p">,</span> <span class="s2">"accommodates"</span><span class="p">,</span> <span class="s2">"minimum_nights"</span><span class="p">,</span>
+                               <span class="s2">"price"</span><span class="p">,</span> <span class="s2">"price_quote_total_price"</span><span class="p">]]</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8251,10 +8252,10 @@ Where the prices actually sit:
 0.99    1159.50
 
 Listings priced over $2,000 a night: 9
-                                            name       room_type  accommodates  minimum_nights    price
-                                          Marion Entire home/apt             2            30.0 110616.6
-Newly Redecorated! Central Park Family Favorite! Entire home/apt             5             1.0  23573.0
-                     The Ramble Hotel, Bunkhouse    Private room             2            29.0   9690.0
+                                            name       room_type  accommodates  minimum_nights    price  price_quote_total_price
+                                          Marion Entire home/apt             2            30.0 110616.6                3318498.0
+Newly Redecorated! Central Park Family Favorite! Entire home/apt             5             1.0  23573.0                  23573.0
+                     The Ramble Hotel, Bunkhouse    Private room             2            29.0   9690.0                 281010.0
 </pre>
 </div>
 </div>
@@ -8273,11 +8274,11 @@ Newly Redecorated! Central Park Family Favorite! Entire home/apt             5  
 <li>How did the transformed version help make the data more usable for analysis or stakeholder review?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p><code>price</code>, the nightly rate in the Denver file. 4,251 listings have one and 688 are still blank, which is where Assignment 6 left them.</p>
+<li><p><code>price</code>, the nightly rate in the Denver file. 4,251 listings have one, 688 are still blank, and that's where Assignment 6 left them.</p>
 </li>
-<li><p>A log, using <code>np.log1p</code>. The raw column has a skew of 59.3 and the histogram proves it. Every listing stacks into one bar at the left edge and the rest of the axis is empty, because a single listing at $110,616 sets the width of the whole chart. `log1p` instead of plain `log` so a $0 quote would not break it, though the minimum here is $7.38. After the transform the skew is 0.28.</p>
+<li><p>A log, using <code>np.log1p</code>. Skew of 59.3 on the raw column, and the histogram shows what that actually looks like: everything stacks into one bar at the left edge and the rest of the axis is dead space, because a single listing at $110,616 sets the width of the whole chart. I used `log1p` over plain `log` so a $0 quote wouldn't blow up, though the cheapest listing here is $7.38 anyway. Skew afterward is 0.28.</p>
 </li>
-<li><p>The second chart is readable. You can see the bulk sitting between roughly $100 and $290, and a right tail that tapers instead of a wall. What it does not do is fix anything. That $110,616 listing is the Marion, a two-guest entire home quoting $3.3 million for a 30 night stay, and it is still in there. Log just squeezed it to the right edge where it stops dominating the axis. Only 9 listings are priced over $2,000 a night, so the tail is tiny and expensive. The transform makes the column usable for a chart or a model. It does not turn a bad row into a good one.</p>
+<li><p>You can read the second chart. The bulk sits between about $100 and $300 with a right tail that tapers instead of stopping at a wall. That $110,616 listing is still in there though. It's the Marion, a two-guest entire home quoting $3.3 million for a 30 night stay, and the log just squeezed it out to the right edge where it stops running the axis. Only 9 listings are over $2,000 a night, so the tail is small and expensive. Good enough to chart and good enough to model. It didn't clean anything, it just made the mess easier to look at.</p>
 </li>
 </ol>
 </div>
@@ -8335,13 +8336,7 @@ Newly Redecorated! Central Park Family Favorite! Entire home/apt             5  
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>number_of_reviews runs 0 to 1,798</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
+<pre>number_of_reviews runs 0 to 1,798
 price runs $7.38 to $110,616.60
 </pre>
 </div>
@@ -8467,7 +8462,7 @@ Largest price z-score: 62.9
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Same scaler, run on the logged price from part 2, to see whether the skew was the problem.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Same scaler on the logged price from part 2, to see if the skew was the problem.</span>
 <span class="n">logged_rows</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"price_log"</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">"price_log_zscore"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">logged_rows</span><span class="p">,</span> <span class="s2">"price_log_zscore"</span><span class="p">]</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">logged_rows</span><span class="p">,</span> <span class="p">[</span><span class="s2">"price_log"</span><span class="p">]])</span>
@@ -8513,11 +8508,11 @@ A normal distribution puts about 68% of values within one standard deviation.
 <li>Who at Airbnb might benefit from this transformation and why?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p>Min-Max on <code>number_of_reviews</code>, which runs 0 to 1,798, and Z-score on <code>price</code>, which runs $7.38 to $110,616.60. Both were added as new columns, <code>reviews_minmax</code> and <code>price_zscore</code>.</p>
+<li><p>Min-Max on <code>number_of_reviews</code>, which runs 0 to 1,798, and Z-score on <code>price</code>, which runs $7.38 to $110,616.60. Both went in as new columns, <code>reviews_minmax</code> and <code>price_zscore</code>.</p>
 </li>
-<li><p>Whenever the two have to sit in the same calculation. Anything distance based, like the clustering in Assignment 9, would let price drive the result over reviews purely because the numbers are larger. Same for a regression with a penalty term. Scaled columns also make coefficients comparable to each other instead of being an artifact of the units.</p>
+<li><p>Whenever the two have to sit in the same calculation. Anything distance based, like the clustering in Assignment 9, would let price run the result over reviews just because the numbers are bigger. Same for a regression with a penalty term. Scaled columns also make the coefficients comparable to each other instead of an artifact of whatever units they came in.</p>
 </li>
-<li><p>Whoever builds the model, so the data science team. The more useful thing this section showed me is what scaling does not do. Min-Max put 76% of listings under 0.05 because one property has 1,798 reviews and sets the top of the range. The price z-score is worse: it maxes out at 62.9, and 99.8% of priced listings land inside one standard deviation, which sounds tidy until you realize it means the scale is being set by a handful of listings and everything real is crushed into the middle. Running the same scaler on the logged price gives a max of 8.25 and puts 69.6% within one standard deviation, right about the 68% a normal distribution should give. So the fix for <code>price</code> was not the scaler. It was doing part 2 first.</p>
+<li><p>Whoever builds the model, so the data science team. What I actually got out of this section was what scaling doesn't do. Min-Max put 76% of listings under 0.05, because one property has 1,798 reviews and sets the top of the range on its own. The price z-score is worse. It maxes out at 62.9, and 99.8% of priced listings land inside one standard deviation, which sounds tidy until you notice what it means: a handful of listings are setting the scale and everything real got crushed into the middle. Run the same scaler on the logged price and you get a max of 8.25 with 69.6% inside one standard deviation, right about the 68% a normal distribution should give. So the fix for <code>price</code> was part 2, not the scaler.</p>
 </li>
 </ol>
 </div>
@@ -8547,8 +8542,8 @@ A normal distribution puts about 68% of values within one standard deviation.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Business cut points, not equal thirds: under 10 reviews is a listing marketing</span>
-<span class="c1"># still has to prove, 50 or more is one that clearly books.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cut points set on what they mean to marketing rather than on equal thirds.</span>
+<span class="c1"># Under 10 reviews is a listing that still has to prove itself, 50 or more books.</span>
 <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Low"</span><span class="p">,</span> <span class="s2">"Medium"</span><span class="p">,</span> <span class="s2">"High"</span><span class="p">]</span>
 
@@ -8687,11 +8682,11 @@ High                 1766        214.54         38248.0                 189.0
 <li>Who would this help at Airbnb, and how?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p><code>number_of_reviews</code>, into three bands. Low is under 10 reviews (1,884 listings), Medium is 10 to 49 (1,289), and High is 50 or more (1,766). I set the cut points on the business meaning rather than using <code>qcut</code>, because equal thirds would tell a marketer nothing about what makes a listing worth contacting.</p>
+<li><p><code>number_of_reviews</code>, into three bands. Low is under 10 reviews (1,884 listings), Medium is 10 to 49 (1,289), High is 50 or more (1,766). I set the cut points on what they mean to the business instead of using <code>qcut</code>, since equal thirds wouldn't tell a marketer anything about which listings are worth contacting.</p>
 </li>
-<li><p>Because a marketer cannot act on "72 reviews" but can act on "High". A campaign needs three lists, not a sorted spreadsheet, and named bands are also something the team can argue about. If somebody thinks the Low cut belongs at 5 instead of 10, that is a conversation about the business rule, not about the code.</p>
+<li><p>Because nobody can act on "72 reviews." They can act on "High." A campaign needs three lists, not a sorted spreadsheet. Named bands also give the team something to argue about, and if somebody thinks Low should stop at 5 instead of 10, that's an argument about the business rule rather than about the code.</p>
 </li>
-<li><p>Marketing gets the segments the brief asked for, and they are real segments rather than tidy labels. Median estimated revenue runs $1,082.50 for Low, $20,268.50 for Medium and $38,248 for High, and median nights booked runs 0, 98 and 189. The Low band is mostly listings that are not booking at all, which is a different problem from a listing that books and needs promotion, so the three groups deserve three different campaigns.</p>
+<li><p>Marketing gets the segments the brief asked for, and they hold up. Median estimated revenue runs $1,082.50 for Low, $20,268.50 for Medium and $38,248 for High, and median nights booked runs 0, 98 and 189. Low is mostly listings that aren't booking at all, which is a completely different problem from a listing that books fine and just needs promoting. Three groups, three campaigns.</p>
 </li>
 </ol>
 </div>
@@ -8963,11 +8958,11 @@ exactly 30                 10.7                89.3
 <li>How could they help someone make a better decision?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p><code>price_per_person</code>, which is <code>price</code> divided by <code>accommodates</code>, and <code>long_stay_listing</code>, a flag for <code>minimum_nights &gt;= 30</code>. The ratio came from noticing that headline price is not comparable across listings of different sizes. Median price is $190.59 for an entire home and $106.00 for a private room, so the room looks like the cheap option. Per guest they are $52.00 and $52.78, effectively the same. The flag came from the <code>minimum_nights</code> counts, which are not a natural distribution: 1,337 listings at 1 night, then 1,324 at exactly 29 and 991 at exactly 30.</p>
+<li><p><code>price_per_person</code>, which is <code>price</code> over <code>accommodates</code>, and <code>long_stay_listing</code>, a flag for <code>minimum_nights &gt;= 30</code>. The ratio came from headline price not being comparable across listings of different sizes. Median price is $190.59 for an entire home against $106.00 for a private room, so the room looks like the bargain. Per guest they're $52.00 and $52.78. Basically the same. The flag came out of the <code>minimum_nights</code> counts, which don't look natural: 1,337 listings at 1 night, then 1,324 at exactly 29 and 991 at exactly 30.</p>
 </li>
-<li><p>Price per person is for a guest choosing between options and for a pricing analyst comparing listings that sleep different numbers of people. The flag is for anyone reporting Denver averages, and for the city, since 30 nights is the line where a short-term rental license stops being required.</p>
+<li><p>Price per person is for a guest picking between options, and for a pricing analyst comparing listings that sleep different numbers of people. The flag is for anybody reporting Denver averages, and for the city, since 30 nights is where a short-term rental license stops being required.</p>
 </li>
-<li><p>The long-stay group is 1,121 listings with a median price of $100.63 against $209.79 for everyone else, 3 reviews against 36, and $1,275 of estimated annual revenue against $23,092. They are barely operating as nightly rentals, so leaving them in the pool moves the citywide median nightly price from $209.79 down to $176.45. Anyone quoting that number is quoting two different businesses averaged together. The licensing side is the part I did not expect: 98.9% of listings with a minimum of 28 nights or fewer have a license on file, and at exactly 30 nights only 10.7% do. The flag is picking up a regulatory line, not a host preference.</p>
+<li><p>The long-stay group is 1,121 listings with a median price of $100.63 against $209.79 for everyone else, 3 reviews against 36, and $1,275 of estimated annual revenue against $23,092. They're barely running as nightly rentals. Leave them in the pool and the citywide median nightly price drops from $209.79 to $176.45, so anybody quoting that number is averaging two different businesses together. The licensing side is what I didn't see coming. 98.9% of listings with a minimum of 28 nights or fewer have a license on file, and at exactly 30 nights only 10.7% do. That's a regulation showing up in the data, not a bunch of hosts who happen to like month-long stays.</p>
 </li>
 </ol>
 </div>
@@ -9007,8 +9002,8 @@ exactly 30                 10.7                89.3
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Shape before encoding:"</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="c1"># Nominal, so one-hot. A hotel room does not outrank a private room,</span>
-<span class="c1"># and an integer code would invent an order that is not there.</span>
+<span class="c1"># Nominal, so one-hot. A hotel room doesn't outrank a private room, and an</span>
+<span class="c1"># integer code would hand the model an order that isn't there.</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"room_type"</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"room_type"</span><span class="p">)</span>
 
 <span class="n">room_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"room_type_"</span><span class="p">)]</span>
@@ -9119,7 +9114,7 @@ Columns added: ['room_type_Entire home/apt', 'room_type_Hotel room', 'room_type_
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Confirm the dummies flag real rows rather than coming back False everywhere.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Check the dummies flag real rows instead of coming back False everywhere.</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Listings flagged in each new column:"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">room_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
 
@@ -9169,11 +9164,11 @@ High      2
 <li>How could this transformation help a pricing model, dashboard, or business report?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p><code>room_type</code>. It has four values and it is the clearest statement in the file of what a guest is actually booking, which makes it worth having in a price model.</p>
+<li><p><code>room_type</code>. Four values, and it's the clearest thing in the file about what a guest is actually booking, which makes it worth having in a price model.</p>
 </li>
-<li><p>One-hot, through <code>pd.get_dummies</code>, giving four boolean columns. It is nominal. A hotel room does not outrank a private room, so an integer code would hand the model an order that does not exist. I did use ordinal encoding on <code>review_activity</code> from part 4, because Low, Medium and High really are ranked and one integer column carries that without spending three columns on it. Picking the method per column is the whole point.</p>
+<li><p>One-hot, through <code>pd.get_dummies</code>, so four boolean columns. It's nominal. A hotel room doesn't outrank a private room, so an integer code would hand the model an order that isn't there. I did go ordinal on <code>review_activity</code> from part 4, since Low, Medium and High really are ranked and one integer column carries that without spending three on it. The method should follow the column.</p>
 </li>
-<li><p>No model reads the words "Shared room", so this is the step that lets <code>room_type</code> into a regression at all, and once it is in, each type gets its own effect on price instead of being averaged away. The dummies are also what a dashboard filter sits on. One caution: the column is heavily lopsided. 4,233 of 4,939 listings are entire homes and 23 are hotel rooms, so <code>room_type_Hotel room</code> has 23 rows behind it. Any coefficient on it should be read with that in mind.</p>
+<li><p>No model reads the words "Shared room," so this is the step that gets <code>room_type</code> into a regression at all, and once it's in, each type gets its own effect on price instead of being averaged away. The dummies are also what a dashboard filter sits on. One thing to watch: the column is badly lopsided. 4,233 of 4,939 listings are entire homes and 23 are hotel rooms, so <code>room_type_Hotel room</code> has 23 rows behind it. I wouldn't read much into whatever coefficient it ends up with.</p>
 </li>
 </ol>
 </div>
@@ -9436,13 +9431,13 @@ room_type_Shared room          0
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p>Part 5, building the two new columns. Scaling and binning are mechanical once you know which function to call. Deciding that price per person is the honest comparison, and that a 30 night minimum means something specific in Denver, meant actually looking at the file instead of running a transform on it. The <code>minimum_nights</code> counts are what gave it away. Real preferences do not pile 1,324 listings on exactly 29 and 991 on exactly 30.</p>
+<li><p>Part 5, building the two new columns. Scaling and binning are mechanical once you know which function to call. Deciding that price per person is the honest comparison, and that a 30 night minimum means something specific in Denver, meant actually looking at the file instead of just running a transform over it. The <code>minimum_nights</code> counts gave it away. Nobody's preferences pile 1,324 listings on exactly 29 and another 991 on exactly 30.</p>
 </li>
-<li><p><code>long_stay_listing</code> for a city planner, and <code>price_per_person</code> for a host. The flag separates two businesses that the raw file mixes together, and it lines up almost exactly with whether a license is on record, so the city can see the shape of the market it is regulating instead of one blended average. A host gets more from price per person, since it says whether they are priced sensibly against a listing that sleeps a different number of people, which the headline number never answers.</p>
+<li><p><code>long_stay_listing</code> for a city planner, <code>price_per_person</code> for a host. The flag splits two businesses the raw file blends together, and it lines up almost exactly with whether a license is on record, so the city can see the shape of what it's regulating instead of one averaged number. A host gets more out of price per person, since it answers whether they're priced sensibly against a listing that sleeps a different number of people. The headline number never answers that.</p>
 </li>
-<li><p>Split the dashboard on <code>long_stay_listing</code> before anything else, so nightly rentals and monthly rentals never share an average, then use <code>review_activity</code> as the filter next to it. After that I would go back to <code>price</code>. The transform in part 2 makes that $110,616 row survivable, but survivable is not fixed, and 9 listings over $2,000 a night is a small enough list to check by hand. I would rather do that with whoever owns the pricing question than quietly drop rows on my own.</p>
+<li><p>Split the dashboard on <code>long_stay_listing</code> first, so nightly and monthly rentals never share an average, then put <code>review_activity</code> next to it as the filter. After that I'd go back to <code>price</code>. The transform in part 2 makes that $110,616 row survivable, but survivable isn't fixed, and 9 listings over $2,000 a night is a short enough list to check by hand. I'd rather do that with whoever owns the pricing question than quietly drop rows on my own.</p>
 </li>
-<li><p>Both of my outcomes are about marketing analytics, and this assignment sits on both. The first is using Python to prepare customer and campaign data well enough to build segments and judge whether an effort worked. Part 4 is literally that: three review-activity bands, and they separate on revenue and nights booked, so they are segments a campaign can be measured against rather than labels. Part 5 is the same idea from the other side, since a flag that splits monthly rentals out of the nightly pool decides whether the baseline you measure a campaign against is honest. The second outcome is about turning that into recommendations while dealing with privacy, bias and the ethical limits of consumer data, and the license finding is exactly where that bites. I can derive something that looks like a compliance signal from a scraped file, but "not listed" means the scraper did not capture a license, not that the host does not hold one. Publishing that as a compliance rate would be an accusation the data cannot support. It is fine as a market-structure observation and not fine as a list of names, which is the same reason I dropped <code>host_name</code> in Assignment 6.</p>
+<li><p>Both of my outcomes are about marketing analytics, and this assignment lands on both. The first is using Python to prep customer and campaign data well enough to build segments and tell whether an effort worked. Part 4 is that, straight through: three review-activity bands that separate on revenue and on nights booked, so a campaign can be measured against them instead of just labeled. Part 5 comes at it from the other side, since pulling monthly rentals out of the nightly pool decides whether the baseline you're measuring against is honest in the first place. The second outcome is about turning that into recommendations while handling privacy, bias and the ethical limits of consumer data, and the license finding is where that bites. I can pull something that looks like a compliance signal out of a scraped file, but "not listed" means the scraper didn't catch a license, not that the host doesn't have one. Publishing it as a compliance rate would be an accusation the data can't back. As an observation about how the market is shaped it's fine. As a list of names it isn't, which is why I dropped <code>host_name</code> in Assignment 6.</p>
 </li>
 </ol>
 </div>
@@ -9493,13 +9488,7 @@ room_type_Shared room          0
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[NbConvertApp] WARNING | Alternative text is missing on 1 image(s).
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[NbConvertApp] Writing 431390 bytes to assignment_07_data_transformation.html
+[NbConvertApp] Writing 431422 bytes to assignment_07_data_transformation.html
 </pre>
 </div>
 </div>
