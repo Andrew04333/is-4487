@@ -9,3 +9,6 @@
 __pycache__/
 *.pyc
 .venv/
+
+# Instructor-provided course materials (syllabus, charters) - not mine to redistribute
+Course Materials/
