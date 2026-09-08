@@ -8802,13 +8802,7 @@ max       532.00         21.00   367.00          5.00                       5.00
   2       47.9           4.5  155.1           2.5                        0.5
   3      157.7           7.5   80.3           1.9                        0.4
 
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>--- only lead_time and adr scaled ---
+--- only lead_time and adr scaled ---
   how far apart the cluster centers sit on each feature:
   lead_time                    0.589
   total_nights                 4.581
@@ -9532,7 +9526,7 @@ kmeans_cluster
 <div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># is_canceled was never an input, so it is a fair test of whether the segments</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># is_canceled was never an input, so it's a fair test of whether the segments</span>
 <span class="c1"># describe anything real.</span>
 <span class="n">check</span> <span class="o">=</span> <span class="p">(</span><span class="n">clean</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"kmeans_cluster"</span><span class="p">)</span>
               <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">bookings</span><span class="o">=</span><span class="p">(</span><span class="s2">"is_canceled"</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">),</span>
@@ -9674,7 +9668,7 @@ kmeans_cluster
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[NbConvertApp] Writing 910450 bytes to assignment_09_clustering.html
+<pre>[NbConvertApp] Writing 910867 bytes to assignment_09_clustering.html
 </pre>
 </div>
 </div>
