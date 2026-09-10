@@ -7730,7 +7730,7 @@ memory usage: 26.0+ MB
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/var/folders/st/mxnd0j9d72v3_qdzxw5s7bq40000gn/T/ipykernel_26415/2820816543.py:5: DtypeWarning: Columns (1) have mixed types. Specify dtype option on import or set low_memory=False.
+<pre>/var/folders/st/mxnd0j9d72v3_qdzxw5s7bq40000gn/T/ipykernel_27545/2820816543.py:5: DtypeWarning: Columns (1) have mixed types. Specify dtype option on import or set low_memory=False.
   df = pd.read_csv(url)
 </pre>
 </div>
@@ -8094,6 +8094,17 @@ affordable
 Guessing 'Affordable' every time would score 91.7% at the $5,000 threshold and 61.1% at $3,000.
 </pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>At $5,000 the unaffordable class falls to 164 listings, 8.3% of the file. Still enough to model, but thin enough that accuracy stops meaning much, since labeling everything affordable would already be right 91.7% of the time. $3,000 splits it 61/39, which is why the lab uses that line.</p>
 </div>
 </div>
 </div>
@@ -8996,7 +9007,13 @@ Confusion matrix, clf_limited:
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-Across 30 different train/test splits, depth 3 beat the full tree 24 times out of 30.
+Across 30 different train/test splits, depth 3 beat the full tree 24 times out of 30.</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
 Mean gap +2.38 points, standard deviation 2.59.
 
 For scale: always guessing 'Affordable' scores 0.6322 on this test set.
@@ -9189,6 +9206,7 @@ Accuracy of one rule, sqft &lt;= 1074.50 is affordable:  0.7103
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p><strong>1.</strong> <code>sqft</code>, at <code>sqft &lt;= 1074.50</code>. Both trees pick it for the root. In the limited tree it takes 0.9701 of the importance, leaving 0.0179 for beds and 0.0120 for baths.</p>
 <p><strong>2.</strong> Simpler, and by a lot. 8 leaves instead of 423, 3 levels instead of 23.</p>
 <p>It's actually simpler than 8 leaves makes it sound. Look at the right half of the plot: every leaf under <code>sqft &gt; 1074.50</code> comes back Not Affordable, so those beds and baths splits sort 760 training rows into groups that all get handed the same answer. They aren't deciding anything. I checked it by throwing the tree away and keeping one rule, <code>sqft &lt;= 1074.50</code> means affordable, which scored 0.7103 against the real tree's 0.7078. Six of the seven splits are decoration, and on the test set they cost a listing.</p>
+<p>Simpler is also the whole practical point. I can read the depth 3 plot on screen and hand somebody one sentence about 1,075 square feet. The full tree doesn't come out legible at any size I tried, and nobody is walking a planning committee through 423 leaves.</p>
 </div>
 </div>
 </div>
@@ -9282,9 +9300,9 @@ napa              13
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p><strong>1.</strong> Square footage, and it isn't close. Both trees split on it first, at 1074.50 sqft, and it carries 0.9701 of the importance in the limited tree and 0.8272 in the full one. beds and baths mostly ride along with it, since bigger units come with more of both.</p>
-<p>What surprised me is how little the rest of the model adds. "Under about 1,075 square feet is affordable" is one line, no tree needed, and it scores 0.7103. That beats both trees I actually built.</p>
-<p><strong>2.</strong> No. It can't even produce a price. It returns a yes/no bucket that was built out of price to begin with, so a landlord asking what to charge gets an answer made from the thing they're asking about.</p>
-<p>The inputs can't carry it either. 105 combinations of beds, baths and sqft show up wearing both labels, covering 686 listings, 34.6% of the file. Units of 700 to 800 sqft rent anywhere from $800 to $4,900. Location and year are doing that work, and neither is in the model.</p>
+<p>What surprised me is how little the rest adds. "Under about 1,075 square feet is affordable" is one line, no tree needed, and it scores 0.7103. From the city's side that points at unit size as the lever, not fixtures.</p>
+<p><strong>2.</strong> No. It only returns a yes/no bucket that was built out of price to begin with, so a landlord asking what to charge gets an answer made from the thing they're asking about. Predicting the rent itself is a regression job, not this one.</p>
+<p>The sample worries me more. Cleaning took 200,810 listings down to 1,984, and whatever made a landlord fill in square footage isn't random. 105 beds/baths/sqft combinations also carry both labels, so location and year are doing work the model never sees.</p>
 </div>
 </div>
 </div>
@@ -9329,7 +9347,7 @@ napa              13
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[NbConvertApp] Writing 349640 bytes to lab_10_classification.html
+<pre>[NbConvertApp] Writing 350649 bytes to lab_10_classification.html
 </pre>
 </div>
 </div>
