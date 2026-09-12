@@ -8050,12 +8050,14 @@ memory usage: 3.4+ MB
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Missing values:'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">missing</span><span class="p">[</span><span class="n">missing</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">missing</span><span class="p">[</span><span class="n">missing</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Exact duplicate rows:'</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># How many times each row repeats if customer_id is ignored</span>
 <span class="n">copies</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'customer_id'</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Different rows once customer_id is ignored:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">copies</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">copies</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="s1">'times repeated'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'rows'</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Distinct rows without customer_id:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">copies</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">copies</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Lowest incomes:'</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">'income'</span><span class="p">]</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Highest ages:'</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
@@ -8078,13 +8080,15 @@ memory usage: 3.4+ MB
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Missing values:
 new_car    2
+dtype: int64
 
 Exact duplicate rows: 3
-Different rows once customer_id is ignored: 469
- times repeated  rows
-             64   453
-             63     8
-              1     8
+Distinct rows without customer_id: 469
+count
+64    453
+63      8
+1       8
+Name: count, dtype: int64
 
 Lowest incomes: [-65600, -15430, 2760]
 Highest ages: [132, 74, 74]
@@ -8161,9 +8165,9 @@ female values: {'0': 27903, '1': 1600, 'M': 1}
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Reflection:">Reflection:<a class="anchor-link" href="#Reflection:">¶</a></h3><p>1.1. What stands out in the initial preview? Any columns or rows that seem unusual?</p>
-<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>1.1. A handful of values can't be real. Two customers have negative incomes (-$65,600 and -$15,430), one is 132 years old, and one has 3,345 accounts. Another has 8 when everyone else has 0 to 4. <code>female</code> loaded as text because one row says "M" instead of 0 or 1, <code>new_car</code> is blank on 2 rows, and 3 rows are exact duplicates.</p>
-<p>The bigger surprise is how repetitive the file is. There are 29,504 rows, but ignore <code>customer_id</code> and only 469 of them are different. 453 customer profiles show up exactly 64 times each, just under different IDs. That means the test set will be full of rows the model already saw in training, so its accuracy will probably look better than it would on customers it has never seen.</p>
-<p><code>product</code> stands out too. It's 0 for every customer who didn't answer and 1 to 4 for every customer who did, so it's really the target under another name, and nobody knows it until after the call.</p>
+<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>1.1. Some values aren't possible: two negative incomes (-$65,600 and -$15,430), an age of 132, and one customer with 3,345 accounts. Another has 8 accounts when everyone else has 0 to 4. <code>female</code> loaded as text because one row has "M" instead of 0 or 1, <code>new_car</code> is missing on 2 rows, and 3 rows are exact duplicates.</p>
+<p>The data is also very repetitive. Without <code>customer_id</code>, only 469 of the 29,504 rows are different, and most customer profiles show up 64 times under different IDs. That means the training and test sets will share identical rows, so the test accuracy will probably look better than it should.</p>
+<p><code>product</code> stood out too. It's 0 for everyone who didn't answer and 1 to 4 for everyone who did, so it basically gives away the target.</p>
 </div>
 </div>
 </div>
@@ -8208,7 +8212,7 @@ female values: {'0': 27903, '1': 1600, 'M': 1}
 
 <span class="c1"># 2.4 Check the result</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Rows before cleaning:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Rows after cleaning: '</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_clean</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Rows after cleaning:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_clean</span><span class="p">))</span>
 <span class="n">df_clean</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -8223,7 +8227,7 @@ female values: {'0': 27903, '1': 1600, 'M': 1}
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Rows before cleaning: 29504
-Rows after cleaning:  29494
+Rows after cleaning: 29494
 </pre>
 </div>
 </div>
@@ -8360,9 +8364,9 @@ Rows after cleaning:  29494
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Reflection:">Reflection:<a class="anchor-link" href="#Reflection:">¶</a></h3><p>2.5  Explain the steps that you took to clean outliers and missing data.  Why did you chose the approach that you used?</p>
 <p>2.6  Which variables did you remove, and why?</p>
-<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>2.5 The outliers weren't just big numbers, they were errors: two negative incomes, an age of 132 and 3,345 accounts. I counted 8 accounts as one too, since every other customer has 0 to 4. I deleted those 5 rows because there's no way to know what the real values were. I didn't use an IQR cutoff. Income is skewed right, so it would have thrown out real high earners, and chart 3.2 shows they're some of the least likely customers to answer.</p>
-<p>For missing data, <code>new_car</code> was blank on 2 rows. I deleted them instead of imputing, since a guessed yes/no is just noise and 2 rows out of 29,504 won't be missed. The "M" in <code>female</code> I could actually fix, because the dictionary codes male as 0. Dropping the 3 exact duplicates as well took the data from 29,504 rows to 29,494.</p>
-<p>2.6 <code>customer_id</code>, because it's just a label and has nothing to do with whether someone picks up. And <code>product</code>, because it's filled in after the call. A 0 means the customer didn't answer, so leaving it in would hand the model the answer, and it wouldn't exist yet for a customer we're deciding whether to call.</p>
+<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>2.5 Two negative incomes, an age of 132, and 3,345 accounts can't be real, and I also counted 8 accounts as an outlier since every other customer has 0 to 4. I deleted those 5 rows because there's no way to know the real values. I didn't use the IQR rule because income is skewed right, so it would have cut a lot of real high earners, and chart 3.2 shows they're less likely to answer.</p>
+<p><code>new_car</code> was blank on 2 rows, so I deleted those too. Guessing a yes/no value wouldn't add much, and 2 rows out of 29,504 won't change the model. The "M" in <code>female</code> was easy to fix because the dictionary codes male as 0. With the 3 duplicates removed as well, the data went from 29,504 rows to 29,494.</p>
+<p>2.6 I removed <code>customer_id</code> because it's just an ID. I also removed <code>product</code> because it's recorded after the call, so it would give the model the answer and wouldn't exist yet for new customers.</p>
 </div>
 </div>
 </div>
@@ -8446,7 +8450,7 @@ dtype: object</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Each number stands for a group, not an amount</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># These columns are codes for categories</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'job'</span><span class="p">,</span> <span class="s1">'chk_acct'</span><span class="p">,</span> <span class="s1">'sav_acct'</span><span class="p">]:</span>
     <span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
 
@@ -8618,11 +8622,11 @@ dtype: object</pre>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Chart 3.4: answer rate for the yes/no variables</span>
-<span class="n">yes_no</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'mobile'</span><span class="p">:</span> <span class="s1">'Mobile phone'</span><span class="p">,</span> <span class="s1">'own_res'</span><span class="p">:</span> <span class="s1">'Owns home'</span><span class="p">,</span> <span class="s1">'rent'</span><span class="p">:</span> <span class="s1">'Rents'</span><span class="p">,</span>
-          <span class="s1">'new_car'</span><span class="p">:</span> <span class="s1">'New car'</span><span class="p">,</span> <span class="s1">'female'</span><span class="p">:</span> <span class="s1">'Female'</span><span class="p">}</span>
-<span class="n">trait_rates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">label</span><span class="p">:</span> <span class="n">df_clean</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">col</span><span class="p">)[</span><span class="s1">'answered'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
-                            <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">yes_no</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span><span class="o">.</span><span class="n">T</span>
-<span class="n">trait_rates</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'No'</span><span class="p">,</span> <span class="s1">'Yes'</span><span class="p">]</span>
+<span class="n">yes_no_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'mobile'</span><span class="p">,</span> <span class="s1">'own_res'</span><span class="p">,</span> <span class="s1">'rent'</span><span class="p">,</span> <span class="s1">'new_car'</span><span class="p">,</span> <span class="s1">'female'</span><span class="p">]</span>
+<span class="n">trait_rates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'No'</span><span class="p">:</span> <span class="p">[</span><span class="n">df_clean</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'answered'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">yes_no_cols</span><span class="p">],</span>
+    <span class="s1">'Yes'</span><span class="p">:</span> <span class="p">[</span><span class="n">df_clean</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'answered'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">yes_no_cols</span><span class="p">],</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">'Mobile phone'</span><span class="p">,</span> <span class="s1">'Owns home'</span><span class="p">,</span> <span class="s1">'Rents'</span><span class="p">,</span> <span class="s1">'New car'</span><span class="p">,</span> <span class="s1">'Female'</span><span class="p">])</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">trait_rates</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'bar'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">'lightgray'</span><span class="p">,</span> <span class="s1">'steelblue'</span><span class="p">])</span>
 <span class="k">for</span> <span class="n">bar_group</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">containers</span><span class="p">:</span>
@@ -8691,9 +8695,9 @@ dtype: object</pre>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Reflection:">Reflection:<a class="anchor-link" href="#Reflection:">¶</a></h3><p>3.6. Which variables show the strongest relationship with the target variable?</p>
 <p>3.7. Did you find any variables that have a weak relationship with the target variable?  Should they be removed?</p>
-<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>3.6. Checking account balance, by a wide margin. 79% of customers with over $2,000 in checking answered against 39% of customers with no checking account, and it has the strongest correlation with <code>answered</code> at 0.35. Income is next (-0.22) and runs the other way. The customers who didn't answer earn more, and nobody earning over $111,000 answered at all. Savings balance (0.18), number of accounts (0.12) and having a mobile phone come after that, with 74% of mobile customers answering against 53% of everyone else. Age matters more than its 0.07 correlation suggests because it isn't a straight line. 19 to 24 year olds answered 42% of the time and 35 to 39 year olds 70%.</p>
-<p>3.7. <code>num_dependents</code> is the weakest at -0.01, basically nothing, so I removed it. <code>job</code> (-0.06) is weak too, but I kept it, since a tree only splits on a variable when it helps and ignores it otherwise.</p>
-<p><code>female</code> also has a small correlation (-0.07), but mostly because only about 5% of customers are women. The gap itself is big, 40% of women answered against 56% of men. I removed it anyway. This model decides who gets a sales call, and gender shouldn't be the reason a customer doesn't get one.</p>
+<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>3.6. Checking account balance has the strongest relationship. Among customers with over $2,000 in checking, 79% answered, compared to 39% of customers with no checking account (correlation 0.35). Income is next (-0.22) and goes the other way, since customers who didn't answer earn more and no one over $111,000 answered. Savings (0.18), number of accounts (0.12), and having a mobile phone (74% vs. 53%) come after that. Age matters more than its 0.07 correlation suggests, because 19 to 24 year olds answered 42% of the time and 35 to 39 year olds answered 70%.</p>
+<p>3.7. <code>num_dependents</code> barely relates to answering (-0.01), so I removed it. <code>job</code> is also weak (-0.06), but I kept it since the tree will ignore it if it doesn't help.</p>
+<p><code>female</code> has a low correlation (-0.07) mostly because only about 5% of customers are women. The actual gap is large, with 40% of women answering vs. 56% of men. I removed it anyway because I don't think gender should decide who gets a sales call.</p>
 </div>
 </div>
 </div>
@@ -8777,7 +8781,7 @@ Base probability of answering: 54.67%
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Training rows:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Testing rows: '</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Testing rows:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8791,7 +8795,7 @@ Base probability of answering: 54.67%
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Training rows: 23595
-Testing rows:  5899
+Testing rows: 5899
 </pre>
 </div>
 </div>
@@ -8874,9 +8878,9 @@ Testing rows:  5899
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">tree_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">tree_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Tree accuracy:    </span><span class="si">{</span><span class="n">tree_accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Tree accuracy: </span><span class="si">{</span><span class="n">tree_accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Base probability: </span><span class="si">{</span><span class="n">base_rate</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Difference:       </span><span class="si">{</span><span class="p">(</span><span class="n">tree_accuracy</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">base_rate</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> percentage points'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Difference: </span><span class="si">{</span><span class="p">(</span><span class="n">tree_accuracy</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">base_rate</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> percentage points'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8889,9 +8893,9 @@ Testing rows:  5899
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Tree accuracy:    74.42%
+<pre>Tree accuracy: 74.42%
 Base probability: 54.67%
-Difference:       19.8 percentage points
+Difference: 19.8 percentage points
 </pre>
 </div>
 </div>
@@ -8909,9 +8913,9 @@ Difference:       19.8 percentage points
 <li>Is this difference a significant amount for the business?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p>The tree is right 74.4% of the time. The base probability is 54.7%, which is how often you'd be right just assuming everyone answers, so the tree is 19.8 percentage points better. Put another way, about 1 in 4 predictions is wrong instead of close to 1 in 2.</p>
+<li><p>The tree is 74.4% accurate compared to the 54.7% base probability, so it's 19.8 percentage points better than assuming everyone answers.</p>
 </li>
-<li><p>Yes, it's a real improvement in knowing which calls will connect. Accuracy doesn't say what the mistakes cost, though. Skipping someone who would have answered gives up $75 in profit, while a wasted call only costs $25, so the model has to be judged on profit too, which is what step 5 does.</p>
+<li><p>Yes. Being right about 3 out of 4 times instead of about half the time would make scheduling reps a lot easier. Accuracy doesn't show what the mistakes cost, though. Missing a customer who would have answered loses $75, while a wasted call costs $25, so the profit numbers in step 5 matter more.</p>
 </li>
 </ol>
 </div>
@@ -9072,14 +9076,13 @@ Difference:       19.8 percentage points
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-
-<span class="n">model_calls</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span>
 <span class="n">model_profit</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">*</span> <span class="mi">75</span> <span class="o">-</span> <span class="n">fp</span> <span class="o">*</span> <span class="mi">25</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Called and answered:    </span><span class="si">{</span><span class="n">tp</span><span class="si">:</span><span class="s1">&gt;5,</span><span class="si">}</span><span class="s1"> x $75 = $</span><span class="si">{</span><span class="n">tp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">75</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Called, no answer:      </span><span class="si">{</span><span class="n">fp</span><span class="si">:</span><span class="s1">&gt;5,</span><span class="si">}</span><span class="s1"> x $25 = -$</span><span class="si">{</span><span class="n">fp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">25</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'True positives (called and answered):'</span><span class="p">,</span> <span class="n">tp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'False positives (called, no answer):'</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Calls made:'</span><span class="p">,</span> <span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Profit using the model: $</span><span class="si">{</span><span class="n">model_profit</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Profit per call:        $</span><span class="si">{</span><span class="n">model_profit</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">model_calls</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">model_calls</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> calls)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Profit per call: $</span><span class="si">{</span><span class="n">model_profit</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">tp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fp</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9092,10 +9095,11 @@ Difference:       19.8 percentage points
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Called and answered:    2,141 x $75 = $160,575
-Called, no answer:        426 x $25 = -$10,650
+<pre>True positives (called and answered): 2141
+False positives (called, no answer): 426
+Calls made: 2567
 Profit using the model: $149,925
-Profit per call:        $58.40 (2,567 calls)
+Profit per call: $58.40
 </pre>
 </div>
 </div>
@@ -9131,13 +9135,12 @@ Profit per call:        $58.40 (2,567 calls)
 <span class="n">no_answer_total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span> <span class="o">-</span> <span class="n">answered_total</span>
 <span class="n">default_profit</span> <span class="o">=</span> <span class="n">answered_total</span> <span class="o">*</span> <span class="mi">75</span> <span class="o">-</span> <span class="n">no_answer_total</span> <span class="o">*</span> <span class="mi">25</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Called and answered:     </span><span class="si">{</span><span class="n">answered_total</span><span class="si">:</span><span class="s1">&gt;5,</span><span class="si">}</span><span class="s1"> x $75 = $</span><span class="si">{</span><span class="n">answered_total</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">75</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Called, no answer:       </span><span class="si">{</span><span class="n">no_answer_total</span><span class="si">:</span><span class="s1">&gt;5,</span><span class="si">}</span><span class="s1"> x $25 = -$</span><span class="si">{</span><span class="n">no_answer_total</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">25</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Answered:'</span><span class="p">,</span> <span class="n">answered_total</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Did not answer:'</span><span class="p">,</span> <span class="n">no_answer_total</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Calls made:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Profit calling everyone: $</span><span class="si">{</span><span class="n">default_profit</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Profit per call:         $</span><span class="si">{</span><span class="n">default_profit</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> calls)'</span><span class="p">)</span>
-
-<span class="n">gap</span> <span class="o">=</span> <span class="n">model_profit</span> <span class="o">-</span> <span class="n">default_profit</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="s1">'The model'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">gap</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Calling everyone'</span><span class="si">}</span><span class="s2"> earns $</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">gap</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> more"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Profit per call: $</span><span class="si">{</span><span class="n">default_profit</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Model profit minus calling everyone:'</span><span class="p">,</span> <span class="n">model_profit</span> <span class="o">-</span> <span class="n">default_profit</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9150,12 +9153,13 @@ Profit per call:        $58.40 (2,567 calls)
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Called and answered:     3,224 x $75 = $241,800
-Called, no answer:       2,675 x $25 = -$66,875
+<pre>Answered: 3224
+Did not answer: 2675
+Calls made: 5899
 Profit calling everyone: $174,925
-Profit per call:         $29.65 (5,899 calls)
+Profit per call: $29.65
 
-Calling everyone earns $25,000 more
+Model profit minus calling everyone: -25000
 </pre>
 </div>
 </div>
@@ -9173,9 +9177,9 @@ Calling everyone earns $25,000 more
 <li>Is this a significant amount for the business?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p>Calling everyone makes $174,925 on the test customers and the model makes $149,925, so the model earns $25,000 less. It skips 2,249 customers who wouldn't have answered, which saves $56,225 in wasted calls, but it also skips 1,083 who would have, and that's $81,225 in profit we never make. A missed sale costs three times what a wasted call does, so the trade loses money.</p>
+<li><p>The model makes $25,000 less than calling everyone ($149,925 vs. $174,925). It avoids 2,249 unanswered calls, but it also skips 1,083 customers who would have answered, and each of those costs $75 while each wasted call only costs $25.</p>
 </li>
-<li><p>Yes, but it depends how you count it. The $25,000 treats a skipped call as worth nothing, but AdviseInvest books a fixed 8 calls an hour, so a slot the model frees up can go to another customer. Per call the model almost doubles profit, $58.40 against $29.65, because 2,141 of its 2,567 calls get answered. When the reps' hours are the limit, that per-call number is the one that counts.</p>
+<li><p>Yes, $25,000 is about 14% less profit. That comparison assumes the slots the model skips just go unused, though, and AdviseInvest only has 8 call slots an hour. Per call, the model makes $58.40 vs. $29.65 because 2,141 of its 2,567 calls get answered, so if rep time is the limit, the model is the better option.</p>
 </li>
 </ol>
 </div>
@@ -9209,15 +9213,13 @@ Calling everyone earns $25,000 more
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-    <span class="n">candidate</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">'entropy'</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-    <span class="n">candidate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">candidate</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'max_depth=</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span><span class="si">:</span><span class="s1">&lt;5</span><span class="si">}</span><span class="s1"> leaves=</span><span class="si">{</span><span class="n">candidate</span><span class="o">.</span><span class="n">get_n_leaves</span><span class="p">()</span><span class="si">:</span><span class="s1">&lt;4</span><span class="si">}</span><span class="s1"> accuracy=</span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">'entropy'</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'max_depth </span><span class="si">{</span><span class="n">depth</span><span class="si">}</span><span class="s1">: accuracy </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">tree</span><span class="o">.</span><span class="n">get_n_leaves</span><span class="p">()</span><span class="si">}</span><span class="s1"> leaves'</span><span class="p">)</span>
 
-<span class="c1"># With no depth limit the tree scores 100%, which isn't believable. It's the copies from</span>
-<span class="c1"># step 1: every test row has an identical row in the training set, so a deep enough tree</span>
-<span class="c1"># just memorizes the answers. Most of what the deeper trees gain comes from that, so I</span>
-<span class="c1"># only went one level past the first tree.</span>
+<span class="c1"># The unlimited tree gets 100% because every test row has an exact copy in the training</span>
+<span class="c1"># data (see step 1). Deeper trees are mostly memorizing those copies, so I only went to depth 5.</span>
 <span class="n">tree_tuned</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">'entropy'</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">tree_tuned</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
@@ -9226,8 +9228,8 @@ Calling everyone earns $25,000 more
 <span class="n">cm_tuned</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_tuned</span><span class="p">)</span>
 <span class="n">tuned_profit</span> <span class="o">=</span> <span class="n">cm_tuned</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">75</span> <span class="o">-</span> <span class="n">cm_tuned</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">25</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Tuned tree accuracy: </span><span class="si">{</span><span class="n">tuned_accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1"> (first tree </span><span class="si">{</span><span class="n">tree_accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Tuned tree profit:   $</span><span class="si">{</span><span class="n">tuned_profit</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> (first tree $</span><span class="si">{</span><span class="n">model_profit</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Tuned tree accuracy: </span><span class="si">{</span><span class="n">tuned_accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1"> (first tree: </span><span class="si">{</span><span class="n">tree_accuracy</span><span class="si">:</span><span class="s1">.2%</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Tuned tree profit: $</span><span class="si">{</span><span class="n">tuned_profit</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1"> (first tree: $</span><span class="si">{</span><span class="n">model_profit</span><span class="si">:</span><span class="s1">,</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9240,21 +9242,21 @@ Calling everyone earns $25,000 more
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>max_depth=4     leaves=12   accuracy=74.42%
-max_depth=5     leaves=20   accuracy=77.00%
-max_depth=6     leaves=29   accuracy=78.88%
-max_depth=8     leaves=44   accuracy=82.05%
+<pre>max_depth 4: accuracy 74.42%, 12 leaves
+max_depth 5: accuracy 77.00%, 20 leaves
+max_depth 6: accuracy 78.88%, 29 leaves
+max_depth 8: accuracy 82.05%, 44 leaves
+max_depth 10: accuracy 84.03%, 58 leaves
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>max_depth=10    leaves=58   accuracy=84.03%
-max_depth=None  leaves=126  accuracy=100.00%
+<pre>max_depth None: accuracy 100.00%, 126 leaves
 
-Tuned tree accuracy: 77.00% (first tree 74.42%)
-Tuned tree profit:   $157,525 (first tree $149,925)
+Tuned tree accuracy: 77.00% (first tree: 74.42%)
+Tuned tree profit: $157,525 (first tree: $149,925)
 </pre>
 </div>
 </div>
@@ -9287,8 +9289,8 @@ Tuned tree profit:   $157,525 (first tree $149,925)
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">new_url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/Stan-Pugsley/is_4487_base/main/DataSets/adviseinvest_new_customer_data.csv'</span>
 <span class="n">new_customers</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">new_url</span><span class="p">)</span>
 
-<span class="c1"># Same cleanup as 2.1 and 2.2. customer_id stays so each prediction can be matched to a</span>
-<span class="c1"># customer, and this file has no answered or product column.</span>
+<span class="c1"># Same cleanup as 2.1 and 2.2. This file has no answered or product column, and</span>
+<span class="c1"># customer_id stays so each prediction can be matched to a customer.</span>
 <span class="n">new_clean</span> <span class="o">=</span> <span class="n">new_customers</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 <span class="n">new_clean</span> <span class="o">=</span> <span class="n">new_clean</span><span class="p">[</span>
     <span class="p">(</span><span class="n">new_clean</span><span class="p">[</span><span class="s1">'income'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_clean</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">new_clean</span><span class="p">[</span><span class="s1">'num_accts'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>
@@ -9299,10 +9301,11 @@ Tuned tree profit:   $157,525 (first tree $149,925)
 <span class="n">new_clean</span><span class="p">[</span><span class="s1">'new_car'</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_clean</span><span class="p">[</span><span class="s1">'new_car'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'New customers before cleaning:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_customers</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'New customers after cleaning: '</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_clean</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'New customers after cleaning:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_clean</span><span class="p">))</span>
 
 <span class="n">new_clean</span><span class="p">[</span><span class="s1">'predicted_answer'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tree_tuned</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">new_clean</span><span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
-<span class="n">new_clean</span><span class="p">[</span><span class="s1">'predicted_answer'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="kc">True</span><span class="p">:</span> <span class="s1">'Will answer'</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="s1">'Will not answer'</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Predicted to answer (True) or not (False):'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_clean</span><span class="p">[</span><span class="s1">'predicted_answer'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -9316,17 +9319,14 @@ Tuned tree profit:   $157,525 (first tree $149,925)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>New customers before cleaning: 1000
-New customers after cleaning:  1000
+New customers after cleaning: 1000
+
+Predicted to answer (True) or not (False):
+predicted_answer
+False    551
+True     449
+Name: count, dtype: int64
 </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>predicted_answer
-Will not answer    551
-Will answer        449
-Name: count, dtype: int64</pre>
 </div>
 </div>
 </div>
@@ -9350,10 +9350,8 @@ Name: count, dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>6.1 Not in total dollars. On the test customers, calling everyone makes $174,925, the first tree $149,925 and the tuned tree $157,525. Tuning closed some of the gap, but both trees still skip too many people who would have answered. Per call is a different story. The first tree makes $58.40 a call against $29.65 for calling everyone, and with only 8 call slots an hour, that's the profit that matters for AdviseInvest's staffing problem.</p>
-<p>All of these profit figures run high, too. The $75 assumes everyone who answers buys a plan, but 2,432 customers in this data answered and bought nothing (<code>product</code> = 1).</p>
-<p>6.2 I'd use it less to decide who gets called and more to decide how the calls get assigned. Score each customer when they book, then give every rep a similar mix of likely and unlikely answerers, so nobody sits through two no-shows while someone else has two live calls. That's the uneven workload the Director of Sales described, and the tuned tree expects 449 of the 1,000 new customers to answer, so there's something to plan around.</p>
-<p>Two changes before using it. The tree says "answered" once the chance passes 50%, but with $75 to gain and $25 to lose, a call pays for itself above 25%, so when reps have open slots the cutoff should come down. And it should be checked against real call results for a few weeks first, because the copies in this data make its test accuracy look better than it really is.</p>
+<h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><p>6.1 No, not in total profit. Calling everyone makes $174,925 on the test set, compared to $149,925 for the first tree and $157,525 for the tuned tree. Tuning helped a little, but the model's real improvement is profit per call ($58.40 vs. $29.65), which matters more with only 8 call slots an hour. All of these profit numbers are probably a bit high too, because 2,432 customers answered but didn't buy anything (<code>product</code> = 1).</p>
+<p>6.2 AdviseInvest could score customers when they schedule, then give each rep a mix of likely and unlikely answerers. That would fix the uneven workload the Director of Sales described, where one rep sits through two no-shows while another is busy all hour. The tuned tree predicts 449 of the 1,000 new customers will answer, which gives them something to plan around. Before using it, I'd lower the cutoff from 50% to 25%. A call earns $75 and only risks $25, so anyone with better than a 25% chance of answering is worth calling when a slot is open. I'd also test it on real calls first, because the repeated rows make the test accuracy look better than it really is.</p>
 </div>
 </div>
 </div>
@@ -9401,7 +9399,7 @@ Name: count, dtype: int64</pre>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[NbConvertApp] Writing 372655 bytes to assignment_10_classification.html
+<pre>[NbConvertApp] Writing 368764 bytes to assignment_10_classification.html
 </pre>
 </div>
 </div>
