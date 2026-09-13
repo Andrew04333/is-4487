@@ -7882,7 +7882,7 @@ Rows left: 3134
 <li>What risks might occur if you included them in your model?</li>
 </ol>
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
-<li><p>The columns named in the instructions come from the rent data and aren't in this file, so I dropped the Airbnb versions, 36 columns in all. That means IDs and free text like <code>name</code> and <code>license</code>, neighborhood and property type (too many categories to encode), review dates, the five columns built from price, and extra versions of columns that stay in, like availability over different windows. I also dropped <code>has_availability</code> since it's always 1, and the entire home dummy so the other room types compare against it. For rows, I removed 688 listings with no price, 9 over $2,000 a night, and 1,108 missing something else, mostly no reviews yet or no bedroom count. That left 3,134 listings.</p>
+<li><p>The columns named in the instructions come from the rent data and aren't in this file, so I dropped the Airbnb versions, 36 columns in all. That means IDs and free text like <code>name</code> and <code>license</code>, neighborhood and property type (too many categories to encode), review dates, the five columns built from price, and extra versions of columns that stay in, like availability over different windows. I also dropped <code>has_availability</code> since it's 1 on every listing that has a value, and the entire home dummy so the other room types compare against it. For rows, I removed 688 listings with no price, 9 over $2,000 a night, and 1,108 missing something else, mostly no reviews yet or no bedroom count. That left 3,134 listings.</p>
 </li>
 <li><p>The price columns would give the answer away. <code>price_zscore</code> is just price rescaled, so the model would look almost perfect and be useless for a listing without a price. Repeated columns split one effect across several coefficients, sometimes with opposite signs. And the $110,616 listing would have pulled the whole fit toward itself.</p>
 </li>
@@ -8621,7 +8621,7 @@ Median price in the test set: $211
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
 <li><p><code>minimum_nights</code>, <code>bedrooms</code>, <code>bathrooms</code>, <code>accommodates</code> and <code>room_type_Shared room</code>. They had the five biggest coefficients by absolute value, and because the features were scaled, that means they move price the most.</p>
 </li>
-<li><p>No. R-squared fell from 0.681 to 0.662 and MSE rose from 15,211 to 16,120. The 21 features I removed each helped a little, and together they were worth about 2 points of R-squared. Five features still get most of the way there.</p>
+<li><p>No. R-squared fell from 0.681 to 0.662 and MSE rose from 15,211 to 16,120. Some of the 21 features I removed helped a little, and together they were worth about 2 points of R-squared. Five features still get most of the way there.</p>
 </li>
 <li><p>The refined model. A host can use it with five things they already know about their place, and it only loses about 2 points of R-squared. For Airbnb's own pricing tool, the baseline is a bit more accurate.</p>
 </li>
@@ -8658,7 +8658,7 @@ Median price in the test set: $211
 <h3 id="%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">✍️ Your Response: 🔧<a class="anchor-link" href="#%E2%9C%8D%EF%B8%8F-Your-Response:-%F0%9F%94%A7">¶</a></h3><ol>
 <li><p>What drives the nightly price of a Denver Airbnb listing, and how well can the listing details predict it? Size and minimum stay explain most of it, and the model gets about 68% of the variation.</p>
 </li>
-<li><p>Hosts should price from size first, and anyone moving to 30-night minimums should plan for a lower nightly rate. Reviews alone won't push price up. Airbnb could base pricing suggestions on size and minimum stay, and flag listings priced far above what their size predicts, like the $110,616 one.</p>
+<li><p>Hosts should price from size first, and anyone moving to 30-night minimums should plan for a lower nightly rate. A higher rating on its own barely changes price. Airbnb could base pricing suggestions on size and minimum stay, and flag listings priced far above what their size predicts, like the $110,616 one.</p>
 </li>
 <li><p>Group the neighborhoods into a few areas and add them back, predict the log of price, and try separate models for nightly and long stays. I'd also keep the 1,108 dropped listings by filling in missing values, like 0 reviews per month for listings with no reviews.</p>
 </li>
@@ -8712,7 +8712,7 @@ Median price in the test set: $211
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[NbConvertApp] Writing 323827 bytes to assignment_11_regression.html
+<pre>[NbConvertApp] Writing 323871 bytes to assignment_11_regression.html
 </pre>
 </div>
 </div>
