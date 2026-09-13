@@ -12,3 +12,7 @@ __pycache__/
 
 # Instructor-provided course materials (syllabus, charters) - not mine to redistribute
 Course Materials/
+
+# Named copies of each notebook for Canvas. Identical to the numbered
+# notebook in the same folder, so only the numbered one goes to GitHub.
+*Andrew Johnson.ipynb
